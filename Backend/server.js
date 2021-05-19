@@ -1,8 +1,22 @@
-const http = require ('http');
+const http = require("http");
 
+const app = require("./app");
 
-const server = http.createServer((req, res) => {
-    res.end('Réponse du serveur')
-})
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
 
-server.listen( process.env.port || 3000); 
+  if (isNaN(port)) {
+    return val;
+  }
+
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+const server = http.createServer(app);
+server.listen(process.env.PORT || 3000);
