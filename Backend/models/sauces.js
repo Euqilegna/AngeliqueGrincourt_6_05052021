@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 const sauceSchema = mongoose.Schema({
-    name : { type : String },
-    manufacturer : { type : String }, 
-    description : { type : String }, 
-    mainPepper : { type : String }, 
-    imageUrl : { type : String }, 
-    heat : { type : Number }, 
+    id : {type : String, require : true},
+    userId: {type : String, require : true},
+    name : { type : String, require : true },
+    manufacturer : { type : String, require : true }, 
+    description : { type : String, require : true}, 
+    mainPepper : { type : String, require : true }, 
+    imageUrl : { type : String, require : true }, 
+    heat : { type : Number, require : true }, 
     likes : { type : Number }, 
     dislikes : { type : Number }, 
     usersLiked : { type : [String] }, 
