@@ -77,27 +77,24 @@ exports.sauceState = (req, res, next) => {
             sauce.dislikes -= 1;
           }
           break;
-        case 0:
+        case 0: 
           if (indexLike > -1) {
-            // On vérifie quand même (même si le cas ne doit pas arriver avec le front) qu'il n'est pas présent dans le tableau (éviter les doublons)
             sauce.usersLiked.splice(indexLike, 1);
             sauce.likes -= 1;
           }
 
           if (indexDislike > -1) {
-            // On vérifier si l'utilisateur est présent dans le tableau des dislikes
             sauce.usersDisliked.splice(indexDislike, 1);
             sauce.dislikes -= 1;
           }
           break;
-        case -1:
+        case -1: // Mon user dislike la sauce
           if (indexLike > -1) {
-            // On vérifie quand même (même si le cas ne doit pas arriver avec le front) qu'il n'est pas présent dans le tableau (éviter les doublons)
             sauce.usersLiked.splice(indexLike, 1);
             sauce.likes -= 1;
           }
           if (indexDislike <= -1) {
-            // On vérifier si l'utilisateur est présent dans le tableau des dislikes
+            // On vérifier si l'utilisateur est présent dans le tableau des likes
             sauce.usersDisliked.push(req.body.userId);
             sauce.dislikes += 1;
           }
