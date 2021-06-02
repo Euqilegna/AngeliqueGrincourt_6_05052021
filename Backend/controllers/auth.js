@@ -1,9 +1,13 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const MyCrypto = require("../tools/myCrypto");
+const crypto = new MyCrypto();
 
 exports.login = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  const mail = req.body.email;
+  const encrypt = crypto.encrypt(mail);
+  User.findOne({ email: encrypt })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
@@ -30,12 +34,13 @@ exports.login = (req, res, next) => {
 
 exports.signup = (req, res, next) => {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
   if (regex.test(req.body.password)) {
     bcrypt
       .hash(req.body.password, 10)
       .then((hash) => {
         const user = new User({
-          email: req.body.email,
+          email: crypto.encrypt(req.body.email),
           password: hash,
         });
         user
@@ -45,6 +50,8 @@ exports.signup = (req, res, next) => {
       })
       .catch((error) => res.status(500).json({ error }));
   } else {
-    res.status(403).json({ error: "8 caractères minimum comportant une majuscule et un chiffre " });
+    res.status(403).json({
+      error: "8 caractères minimum comportant une majuscule et un chiffre ",
+    });
   }
 };
